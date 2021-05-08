@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1995/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{LayoutPadrao}">
+	
+<head>
+	<meta charset="UTF-8"/>
+	<title>Pesquisa de Eventos</title>
+</head>
+<section layout:fragment="conteudo">
+	<div th:replace="MensagemGeral"></div>	
+	<div class="panel panel-default" >
+		<div class="panel-heading">
+			<h1 class="panel-title">Pesquisa de Eventos</h1>
+		</div>
+		
+		<div class="panel-body">
+		
+			<form method="GET" class="form-horizontal">
+				<div class="form-group">
+					<div class="col-sm-4">
+						<div class="input-group">
+							<input class="form-control" placeholder="Qual evento está procurando ?"
+								autofocus="autofocus" name="nome"></input>
+							<span class="input-group-btn">
+								<button type="submit" class="btn btn-default">
+									<i class="glyphicon glyphicon-search"></i>
+								</button>
+							</span>
+						</div>
+					</div>
+				</div>
+			</form>
+		
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th class="text-center col-md-1">#</th>
+						<th class="text-center col-md-2">Nome</th>
+						<th class="text-center col-md-1">Capacidade</th>
+						<th class="text-center col-md-1">Quantidade de Ingresso</th>
+						<th class="text-center col-md-1">Data</th>
+						<th class="text-center col-md-2">Valor</th>
+						<th class="text-center col-md-1">Genêro</th>
+						<th class="text-center col-md-2">Casa</th>
+						<th class="text-center col-md-1"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="evento : ${eventos}">
+						<td class="text-center col-md-1" th:text="${evento.id}"></td>
+						<td class="text-center col-md-2" th:text="${evento.nome}"></td>
+						<td class="text-center col-md-1" th:text="${{evento.capacidade}}"></td>
+						<td class="text-center col-md-1" th:text="${{evento.qtdIngresso}}"></td>
+						<td class="text-center col-md-1" th:text="${{evento.data}}"></td>
+						<td class="text-center col-md-2" th:text="|R$ ${{evento.valor}}|"></td>
+						<td class="text-center col-md-1" th:text="${evento.genero.estilo}"></td>
+						<td class="text-center col-md-2" th:text="${evento.casaDeShow.nome}"></td>
+						<td class="text-center col-md-1">
+							<a class="btn btn-link btn-xs" th:href="@{/evento/{id}(id=${evento.id})}">
+								<span class="glyphicon glyphicon-pencil"></span>
+							</a>
+							<a class="btn btn-link btn-xs" data-toggle="modal" data-target="#exclusaoModal"
+								th:attr="data-codigo=${evento.id}, data-nome=${evento.nome}"
+								title="Excluir" rel="tooltip" data-placement="top">
+								<span class="glyphicon glyphicon-remove"></span>
+							</a>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="9" th:if="${#lists.isEmpty(eventos)}">Nenhum evento foi encontrada!</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<nav id="pagination">
+			  <ul class="pager">
+			    <li th:if="${page.offsetProximo != 10}">
+			    	<a th:href="@{/evento/pesquisa?o={var}(var=${page.offsetAnterior})}">Anterior</a>
+			    </li>
+			    <li th:if="${!#lists.isEmpty(eventos)}">
+			    	<a th:href="@{/evento/pesquisa?o={var}(var=${page.offsetProximo})}" >Próximo</a>
+			    </li>
+			  </ul>
+			</nav>
+			
+		</div>
+		<div th:replace="ConfirmacaoExclusaoEvento"></div>
+		
+	</div>
+</section>	
+</html>

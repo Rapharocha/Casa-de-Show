@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1995/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{LayoutPadrao}">
+<head>
+	<meta charset="UTF-8"/>
+	<title>Cadastro de Casa</title>
+</head>
+<section layout:fragment="conteudo">
+	<form class="form-horizontal" method="post" action="/evento/cadastro" th:object="${evento}">
+		
+		<div th:replace="MensagemGeral"></div>
+		<div th:replace="MensagemErro"></div>
+		<div th:replace="MensagemErroPersonalizado"></div>
+		
+		<div class="panel panel-default" >
+			<div class="panel-heading">
+				<h1 class="panel-title">Novo Evento</h1>
+			</div>
+		
+		
+			<div class="panel-body">
+				<input type="hidden" th:field="*{id}">
+				<div class="form-group"  th:classappend="${#fields.hasErrors('nome')} ? has-error">
+					<label for="nome" class="col-sm-1 control-label">Nome</label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" id="nome" th:field="*{nome}"/>
+					</div>
+				</div>
+				<div class="form-group"  th:classappend="${#fields.hasErrors('capacidade')} ? has-error">
+					<label for="capacidade" class="col-sm-1 control-label">Capacidade</label>
+					<div class="col-sm-2">
+						<input type="number" class="form-control" id="capacidade" th:field="*{capacidade}"/>
+					</div>
+				</div>
+				<div class="form-group"  th:classappend="${#fields.hasErrors('data')} ? has-error">
+					<label for="data" class="col-sm-1 control-label">Data</label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" id="data" th:field="*{data}"
+							data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="pt-BR"
+							data-date-autoclose="true" data-date-today-highligh="true"/>
+					</div>
+				</div>
+				<div class="form-group"  th:classappend="${#fields.hasErrors('valor')} ? has-error">
+					<label for="valor" class="col-sm-1 control-label">Valor</label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control js-currency" id="valor" th:field="*{valor}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="genero" class="col-sm-1 control-label">Genêro</label>
+					<div class="col-sm-2">
+						<select class="form-control" th:field="*{genero}">
+							<option th:each="genero : ${generos}" 
+							th:value="${genero}"
+							th:text="${genero.estilo}"></option>
+							
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="casaDeShow" class="col-sm-1 control-label">Casa</label>
+					<div class="col-sm-2">
+						<select class="form-control" name="casaDeShow">
+							<option th:each="casa : ${casas}"
+                            th:value="${casa.id}"
+                            th:text="${casa.nome}"></option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-offset-1 col-sm-10">
+						<button type="submit" class="btn btn-primary">Salvar</button>
+					</div>
+				</div>								
+			</div>
+		</div>
+	</form>
+</section>
+</html>

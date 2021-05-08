@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1995/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{LayoutPadrao}">
+	
+<head>
+	<meta charset="UTF-8"/>
+	<title>Venda de Ingressos</title>
+</head>
+<section layout:fragment="conteudo">
+
+		<div th:replace="MensagemGeral"></div>
+		<div th:replace="MensagemErroPersonalizado"></div>
+
+		<div class="panel panel-default">
+			<div class="panel panel-heading">
+				<h1 class="panel-title">Compra de Ingressos</h1>
+			</div>
+			<div class="panel panel-body">
+				<div class="panel panel-default"  id="vendaIngressos" th:each="evento : ${eventos}">
+					<div class="panel-heading">
+						<h1 class="panel-title text-center" th:text="${evento.nome}"></h1>
+					</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<h5 class="card-text text-center"><b th:text="|Casa: ${evento.casaDeShow.nome}|"></b></h5>
+						</div>
+						<div class="form-group">
+							<h5 class="card-text text-center"><b th:text="|Estilo: ${evento.genero.estilo}|"></b></h5>
+						</div>	
+						<div class="form-group">
+							<h5 class="card-text text-center"><b  th:text="|Data: ${{evento.data}}|"></b></h5>
+						</div>
+						<div class="form-group">
+							<h5 class="card-text text-center" ><b th:text="|Ingressos Restantes:${{evento.qtdIngresso}}|"></b></h5>
+						</div>
+						<div class="form-group">
+							<h5 class="card-text text-center" ><b th:text="|Valor: R$ ${{evento.valor}}|"></b></h5>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-10" style="text-align: center;">
+								<a class="btn btn-primary" data-toggle="modal" data-target="#confirmacaoCompra"
+									 th:attr="data-id=${evento.id}, data-nome=${evento.nome}, data-username=${#authentication.principal.username}">Comprar</a>
+							</div>
+						</div>								
+					</div>
+				</div>
+				<div class="form-group"  th:if="${#lists.isEmpty(eventos)}">
+					<label>Nenhum ingresso no momento!!</label>
+				</div>
+			</div>
+				<nav id="pagination">
+			  		<ul class="pager">
+				   		 <li th:if="${page.offsetProximo != 1}">
+				    		<a th:href="@{/venda?o={var}(var=${page.offsetAnterior})}">Anterior</a>
+				    	</li>
+				    	<li th:if="${!#lists.isEmpty(eventos)}">
+				    		<a th:href="@{/venda?o={var}(var=${page.offsetProximo})}">Próximo</a>
+				    	</li>
+			  		</ul>
+				</nav>
+			<div th:replace="ConfirmacaoCompra"></div>
+			
+		</div>
+		
+</section>
+</html>

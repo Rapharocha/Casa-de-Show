@@ -1,0 +1,20 @@
+.panel-default {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.alert {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+#vendaIngressos {
+	margin-left: 400px;
+	margin-right: 400px;
+}
+
+#login {
+	margin-left: 400px;
+	margin-right: 400px;
+	margin-top: 20px;
+}

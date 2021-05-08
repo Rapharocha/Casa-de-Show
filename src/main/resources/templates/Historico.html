@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1995/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{LayoutPadrao}">
+	
+<head>
+	<meta charset="UTF-8"/>
+	<title>Histórico</title>
+</head>
+<section layout:fragment="conteudo">
+
+		<div class="panel panel-default">
+			<div class="panel panel-heading">
+				<h1 class="panel-title" th:text="|Histórico do ${#authentication.principal.username}|"></h1>
+			</div>
+			<div class="panel panel-body">
+				<div class="panel panel-default"  id="vendaIngressos" th:each="venda : ${vendas}">
+					<div class="panel-heading">
+						<h1 class="panel-title text-center" th:text="${venda.evento.nome}"></h1>
+					</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<h5 class="card-text text-center"><b th:text="|Quantidade de Ingressos Comprados: ${venda.ingressosComprados}|"></b></h5>
+						</div>
+						<div class="form-group">
+							<h5 class="card-text text-center"><b th:text="|Valor total da compra: R$ ${{venda.valorTotal}}|"></b></h5>
+						</div>	
+						<div class="form-group">
+							<h5 class="card-text text-center"><b  th:text="|Nome : ${venda.usuario.nome}|"></b></h5>
+						</div>
+						<div class="form-group">
+							<h5 class="card-text text-center"><b  th:text="|Data do Evento : ${{venda.evento.data}}|"></b></h5>
+						</div>								
+					</div>
+				</div>
+				<div class="form-group"  th:if="${#lists.isEmpty(vendas)}">
+					<label>Nenhuma compra no momento!!</label>
+				</div>
+			</div>			
+		</div>
+		
+</section>
+</html>
